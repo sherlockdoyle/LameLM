@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LameLM</title>
+  </head>
+  <body>
+    <h1>LameLM</h1>
+    <p>This tool helps you make new text that sounds like text you already have. Here's how it works:</p>
+    <ol>
+      <li>Put some text in the box below.</li>
+      <li>Click "Train" to teach the computer about your text.</li>
+      <li>Choose how you want the new text to start and how long it should be.</li>
+      <li>Click "Generate" to create new text that sounds similar to what you put in.</li>
+    </ol>
+    <p>
+      Try it out and see what kind of text you can create!
+      <a href="https://github.com/yourusername/llm-demo" target="_blank">
+        Read more about what each option does and how this works.
+      </a>
+    </p>
+
+    <label>
+      Input Text:
+      <textarea
+        id="inputText"
+        rows="10"
+        spellcheck="false"
+        placeholder="Paste your text here"
+        title="Input text area for training data"
+      ></textarea>
+    </label>
+    <div class="flex-spaced">
+      <div>
+        <button class="secondary" id="uploadFile" title="Upload a file containing training data">Upload File</button>
+        <button class="secondary" id="downloadUrl" title="Download training data from a given URL">
+          Download from URL
+        </button>
+        <select id="predefinedText" title="Choose from predefined text samples">
+          <option value="">Choose predefined text</option>
+        </select>
+      </div>
+      <button
+        class="secondary"
+        id="simplifyText"
+        title="Remove all non-alphanumeric-space characters and convert to lowercase"
+      >
+        Simplify text
+      </button>
+    </div>
+
+    <div class="flex-input-button">
+      <label>
+        Prefix Length:
+        <span>Higher values give better results but takes more resources</span>
+        <input
+          id="prefixLength"
+          type="number"
+          placeholder="Enter prefix length"
+          value="3"
+          min="1"
+          title="Length of the prefix used for training"
+        />
+      </label>
+      <button id="train" title="Start training the LLM model">Train</button>
+    </div>
+    <label>
+      Training Progress:
+      <progress id="trainingProgress" value="0" title="Training progress indicator"></progress>
+    </label>
+
+    <hr />
+
+    <div class="flex-input-button">
+      <label>
+        Starting Sequence:
+        <span>Should have as many characters as the prefix length</span>
+        <input
+          id="startSequence"
+          type="text"
+          placeholder="Enter starting sequence"
+          title="Starting sequence for text generation"
+        />
+      </label>
+      <button class="secondary" id="autoStartSequence" title="Automatically choose one of the best starting sequence">
+        Auto-choose starting sequence
+      </button>
+    </div>
+
+    <div class="output-controls">
+      <label>
+        Content Length:
+        <input
+          id="contentLength"
+          type="number"
+          value="500"
+          min="1"
+          placeholder="Enter content length"
+          title="Length of the generated content"
+        />
+      </label>
+      <label>
+        Top K:
+        <input
+          id="topK"
+          value="0"
+          min="0"
+          type="number"
+          placeholder="Enter Top K value"
+          title="Top K parameter for text generation"
+        />
+      </label>
+      <label>
+        Probability Power:
+        <input
+          id="probabilityPower"
+          title="Choose the power to apply to the probabilities"
+          type="number"
+          value="1"
+          placeholder="Enter probability power"
+        />
+      </label>
+    </div>
+
+    <div class="flex-spaced">
+      <div class="checkbox-container">
+        <input id="looseMode" type="checkbox" />
+        <label for="looseMode">Use all characters from input (more random output)</label>
+      </div>
+      <button id="generate" title="Generate text based on the current settings">Generate</button>
+    </div>
+
+    <label for="output">Generated Output:</label>
+    <pre id="output" rows="10" title="Generated text output"></pre>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,239 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --input-bg: #ffffff;
+  --input-border: #dddddd;
+  --button-bg: #3498db;
+  --button-text: #ffffff;
+  --button-hover: #2980b9;
+  --button-active: #2472a4;
+  --focus-outline: #5dade2;
+  --output-bg: #f9f9f9;
+  --secondary-button-bg: #e0e0e0;
+  --secondary-button-text: #333333;
+  --secondary-button-hover: #d0d0d0;
+  --secondary-button-active: #c0c0c0;
+  --progress-bg: #e0e0e0;
+  --progress-value: #629ee6;
+  --progress-complete: #4caf50;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --input-bg: #2c2c2c;
+    --input-border: #444444;
+    --button-bg: #2980b9;
+    --button-hover: #3498db;
+    --button-active: #21618c;
+    --output-bg: #2c2c2c;
+    --secondary-button-bg: #4a4a4a;
+    --secondary-button-text: #f0f0f0;
+    --secondary-button-hover: #5a5a5a;
+    --secondary-button-active: #3a3a3a;
+    --progress-bg: #444444;
+  }
+}
+
+body {
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+  margin: 0 auto;
+  background-color: var(--bg-color);
+  padding: 20px;
+  max-width: 800px;
+  color: var(--text-color);
+  line-height: 1.6;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  color: var(--text-color);
+}
+
+h1 {
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+label {
+  display: block;
+  font-weight: bold;
+
+  & > span {
+    float: right;
+    font-weight: normal;
+    font-size: 0.8rem;
+  }
+
+  & > input,
+  & > select {
+    width: 100%;
+  }
+}
+
+textarea,
+input,
+select,
+button {
+  display: block;
+  margin-bottom: 10px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  padding: 10px;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: monospace;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+button {
+  transition: background-color 0.3s;
+  cursor: pointer;
+  border: none;
+  background-color: var(--button-bg);
+  padding: 11px 10px;
+  color: var(--button-text);
+
+  &:hover {
+    background-color: var(--button-hover);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    background-color: var(--button-active);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-outline);
+  }
+
+  &.secondary {
+    background-color: var(--secondary-button-bg);
+    color: var(--secondary-button-text);
+
+    &:hover {
+      background-color: var(--secondary-button-hover);
+    }
+
+    &:active {
+      background-color: var(--secondary-button-active);
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px var(--focus-outline);
+    }
+  }
+}
+
+.flex-spaced,
+.flex-spaced > :first-child,
+.flex-input-button,
+.output-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.flex-spaced {
+  flex-wrap: wrap;
+
+  & > :last-child {
+    margin-left: auto;
+  }
+}
+
+.flex-input-button {
+  align-items: end;
+
+  & > * {
+    flex-grow: 1;
+  }
+}
+
+.output-controls {
+  flex-wrap: wrap;
+
+  & > label {
+    flex-grow: 1;
+    width: 30%;
+    min-width: 150px;
+  }
+}
+
+progress {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  width: 100%;
+  height: 16px;
+}
+
+progress::-webkit-progress-bar {
+  border-radius: 10px;
+  background-color: var(--progress-bg);
+}
+
+progress::-webkit-progress-value,
+progress::-moz-progress-bar {
+  border-radius: 10px;
+  background-color: var(--progress-value);
+}
+
+progress[value='1']::-webkit-progress-bar,
+progress[value='1']::-moz-progress-bar {
+  background-color: var(--progress-complete);
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+
+  & > * {
+    cursor: pointer;
+  }
+
+  & > input[type='checkbox'] {
+    margin: 0;
+  }
+
+  & > label {
+    margin-bottom: 0;
+    font-weight: normal;
+  }
+}
+
+#output {
+  border: 1px solid var(--input-border);
+  background-color: var(--output-bg);
+  padding: 10px;
+  min-height: 100px;
+  font-size: large;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+}
