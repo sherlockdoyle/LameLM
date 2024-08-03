@@ -223,6 +223,7 @@ progress[value='1']::-moz-progress-bar {
 }
 
 #output {
+  margin: 0;
   border: 1px solid var(--input-border);
   background-color: var(--output-bg);
   padding: 10px;

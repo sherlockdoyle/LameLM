@@ -1,16 +1,18 @@
-import './style.css';
 import getInputText from './input';
-import { $ } from './util';
 import MarkovChain from './markov';
+import './style.css';
+import { $ } from './util';
 
 const prefixLength = $<HTMLInputElement>('prefixLength'),
   train = $<HTMLButtonElement>('train'),
-  trainingProgress = $<HTMLProgressElement>('trainingProgress');
+  trainingProgress = $<HTMLProgressElement>('trainingProgress'),
+  stats = $<HTMLSpanElement>('stats');
 
 let mc: MarkovChain | null = null;
 
-train.addEventListener('click', () => {
+train.addEventListener('click', async () => {
   trainingProgress.value = 0;
+  stats.innerText = '';
   if (!prefixLength.value) prefixLength.value = '3';
 
   const prefixLengthValue = parseInt(prefixLength.value);
@@ -19,9 +21,10 @@ train.addEventListener('click', () => {
   if (inputTextValue.length <= prefixLengthValue) return alert('Input text must be longer than prefix length!');
 
   mc = new MarkovChain(prefixLengthValue, inputTextValue);
-  mc.train(progress => {
+  await mc.train(progress => {
     trainingProgress.value = progress;
   });
+  stats.innerText = `Statistics: (${(mc.emptyProbsRatio * 100).toFixed(2)}%, ${(mc.emptyPrefixesRatio * 100).toFixed(2)}%)`;
 });
 
 const startSequence = $<HTMLInputElement>('startSequence'),
@@ -35,7 +38,10 @@ const startSequence = $<HTMLInputElement>('startSequence'),
 
 autoStartSequence.addEventListener('click', () => {
   if (!mc?.trained) return alert('Train the model first!');
-  startSequence.value = mc.getBestPrefix();
+  do {
+    startSequence.value = mc.getBestPrefix();
+    // input element can't have newlines, so this hack, might cause infinite loop
+  } while (startSequence.value.length !== mc.prefixLength);
 });
 
 generate.addEventListener('click', () => {

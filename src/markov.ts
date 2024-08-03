@@ -33,7 +33,7 @@ export default class MarkovChain {
 
     this.inputSeq = this.string2nums(inputText);
 
-    this.probabilityTable = new Float32Array(this.num2char.length ** (this.prefixLength + 1));
+    this.probabilityTable = new Float32Array(this.num2char.length ** (prefixLength + 1));
   }
 
   async train(progressCallback: (progress: number) => void) {
@@ -73,6 +73,19 @@ export default class MarkovChain {
 
     progressCallback(1);
     this.trained = true;
+  }
+
+  get emptyProbsRatio(): number {
+    return this.probabilityTable.filter(p => p === 0).length / this.probabilityTable.length;
+  }
+
+  get emptyPrefixesRatio(): number {
+    let count = 0;
+    const pow = this.num2char.length ** this.prefixLength;
+    for (let i = 0; i < pow; ++i)
+      if (this.probabilityTable.slice(i * this.num2char.length, (i + 1) * this.num2char.length).every(p => p === 0))
+        ++count;
+    return count / pow;
   }
 
   private string2nums(string: string): Uint32Array {
